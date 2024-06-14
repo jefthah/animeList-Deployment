@@ -1,0 +1,48 @@
+<!-- NavbarNotLogin.html -->
+<nav class="bg-gray-800 p-4 relative">
+    <div class="container-md mx-4 mx-md-8 flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+            <div class="flex items-center">
+                <img src="/images/logo.png" alt="Logo" class="h-20 w-15"> <!-- Larger logo -->
+            </div>
+            <div class="flex flex-col">
+                <span class="text-3xl font-semibold">My Anime List</span>
+                <span class="text-sm text-center">AnimeRating</span>
+            </div>
+        </div>
+        <div class="hidden lg:flex items-center space-x-4 relative">
+            <input id="search-input" type="text" placeholder="Search"
+                class="bg-gray-700 text-white rounded px-3 py-2 focus:outline-none text-lg">
+            <div id="search-results"
+                class="absolute bg-white text-black rounded w-full mt-2 max-h-96 overflow-y-auto hidden"></div>
+            <a href="/index.html" class="text-white hover:text-gray-400 text-lg">Home</a>
+            <a href="/html/genre.html" class="text-white hover:text-gray-400 text-lg">Genre</a>
+            <a href="/html/myListNotLogin.html" class="text-white hover:text-gray-400 text-lg">My List</a>
+            <a href="/html/login.html"
+                class="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700 text-lg">Sign In</a>
+        </div>
+        <div class="lg:hidden flex items-center">
+            <button id="menu-button" class="text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-menu"
+        class="md:hidden hidden overflow-hidden max-h-0 transition-max-height duration-300 ease-out">
+        <div class="flex flex-col space-y-2 mt-2">
+            <input id="mobile-search-input" type="text" placeholder="Search"
+                class="bg-gray-700 text-white rounded px-3 py-2 focus:outline-none text-lg">
+            <div id="mobile-search-results"
+                class="absolute bg-white text-black rounded w-full mt-2 max-h-96 overflow-y-auto hidden"></div>
+            <a href="/index.html" class="text-white hover:text-gray-400 text-lg">Home</a>
+            <a href="/html/genre.html" class="text-white hover:text-gray-400 text-lg">Genre</a>
+            <a href="/html/myListNotLogin.html" class="text-white hover:text-gray-400 text-lg">My List</a>
+            <a href="/html/login.html"
+                class="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700 text-lg">Sign In</a>
+        </div>
+    </div>
+</nav>

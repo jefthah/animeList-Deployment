@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Anime</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body class="bg-gray-900 text-white">
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+
+    <!-- Anime Detail Section -->
+    <div class="container mx-auto p-4">
+        <div class="flex flex-col lg:flex-row items-center lg:items-start space-y-4 lg:space-y-0 lg:space-x-8">
+            <div class="flex-shrink-0">
+                <img id="anime-image" src="" alt="Anime Image" class="w-64 h-auto rounded-lg">
+            </div>
+            <div>
+                <h1 id="anime-title" class="text-4xl font-bold mb-4">Anime Title</h1>
+                <p id="anime-release" class="mb-2">Release: </p>
+                <p id="anime-genre" class="mb-2">Genre: </p>
+                <p id="anime-author" class="mb-2">Author: </p>
+                <p id="anime-rating" class="mb-2">Rating: </p>
+                <h2 class="text-2xl font-bold mt-4">Anime Description</h2>
+                <p id="anime-description" class="mt-2"></p>
+            </div>
+        </div>
+        <div class="mt-8">
+            <h2 id="anime-trailer-title" class="text-2xl font-bold mb-4">Anime Trailer</h2>
+            <div id="anime-trailer" class="w-full h-64 bg-gray-800 rounded-lg flex items-center justify-center">
+                <!-- Trailer will be embedded here -->
+            </div>
+        </div>
+        <div class="mt-8">
+            <h2 class="text-2xl font-bold mb-4">Related Anime</h2>
+            <div id="related-anime" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Related Anime akan ditambahkan secara dinamis di sini -->
+            </div>
+        </div>
+        <div class="mt-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">Reviews</h2>
+                <a href="#" id="write-review-link" class="text-white hover:text-gray-400 flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Write Reviews
+                </a>
+            </div>
+            <div id="anime-reviews" class="space-y-4">
+                <!-- Reviews akan ditambahkan secara dinamis di sini -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/javascript/detailAnime.js"></script>
+</body>
+
+</html>
