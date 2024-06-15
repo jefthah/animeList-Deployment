@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Load Navbar
-    fetch('/html/layout/NavbarNotLogin.html')
+    fetch('/html/layout/NavbarLogin.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-container').innerHTML = data;
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         data.data.forEach(anime => {
                             const resultItem = document.createElement('a');
-                            resultItem.href = `/html/detailAnimeNotLogin.html?id=${anime.mal_id}&email=${localStorage.getItem('email')}`;
+                            resultItem.href = `/html/detailAnime.html?id=${anime.mal_id}&username=${localStorage.getItem('username')}`;
                             resultItem.classList.add('p-2', 'hover:bg-gray-200', 'cursor-pointer', 'flex', 'items-center');
                             resultItem.innerHTML = `
                                 <img src="${anime.images.webp.image_url}" alt="${anime.title}" class="w-12 h-12 object-cover inline-block mr-2">
@@ -67,6 +67,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 searchResults.innerHTML = '';
                 searchResults.classList.add('hidden');
             }
+
+            updateUserUsername();
         });
 
     // Fetch genres and display them
@@ -179,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             <h3 class="text-lg font-bold mt-2">${anime.title}</h3>
                             <p class="text-gray-400">Rating: ${anime.score || 'N/A'}</p>
                             <p class="text-gray-400">Year: ${anime.year || 'N/A'}</p>
-                            <button class="mt-2 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700" onclick="window.location.href='/html/detailAnimeNotLogin.html?id=${anime.mal_id}&email=${localStorage.getItem('email')}'">Learn More</button>
+                            <button class="mt-2 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700" onclick="window.location.href='/html/detailAnime.html?id=${anime.mal_id}&username=${localStorage.getItem('username')}'">Learn More</button>
                         </div>
                     `;
                     animeContainer.appendChild(animeItem);
@@ -212,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             <h3 class="text-lg font-bold mt-2">${anime.title}</h3>
                             <p class="text-gray-400">Rating: ${anime.score || 'N/A'}</p>
                             <p class="text-gray-400">Year: ${anime.year || 'N/A'}</p>
-                            <button class="mt-2 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700" onclick="window.location.href='/html/detailAnimeNotLogin.html?id=${anime.mal_id}&email=${localStorage.getItem('email')}'">Learn More</button>
+                            <button class="mt-2 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700" onclick="window.location.href='/html/detailAnime.html?id=${anime.mal_id}&username=${localStorage.getItem('username')}'">Learn More</button>
                         </div>
                     `;
                     animeContainer.appendChild(animeItem);
@@ -233,5 +235,26 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error('Error fetching anime:', error);
                 document.getElementById('loading-spinner').classList.add('hidden');
             });
+    }
+
+    function updateUserUsername() {
+        const params = getQueryParams();
+        const username = params.username || localStorage.getItem('username');
+        if (username) {
+            localStorage.setItem('username', username); // Simpan username ke localStorage jika ada di query params
+            const userUsernameElement = document.getElementById('user-username');
+            const mobileUserUsernameElement = document.getElementById('mobile-user-username');
+            userUsernameElement.textContent = username;
+            mobileUserUsernameElement.textContent = username;
+        }
+    }
+
+    function getQueryParams() {
+        const params = {};
+        window.location.search.replace(/^\?/, '').split('&').forEach(param => {
+            const [key, value] = param.split('=');
+            params[key] = decodeURIComponent(value);
+        });
+        return params;
     }
 });
