@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - My List Anime</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.min.css">
+</head>
+
+<body class="bg-gray-900 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-gray-800 text-white rounded-lg p-4 sm:p-8 shadow-lg flex flex-col sm:flex-row w-full max-w-4xl relative">
+        <div class="flex flex-col items-center justify-center w-full sm:w-1/2 p-4 sm:p-8">
+            <img src="/images/logo.png" alt="My List Anime" class="h-48 sm:h-80 mb-4">
+        </div>
+        <div class="w-full sm:w-1/2 p-4 sm:p-8">
+            <div class="text-left">
+                <h2 class="text-2xl sm:text-3xl font-bold mb-1 sm:mb-4">Login</h2>
+                <p class="mb-4 sm:mb-8">SELAMAT DATANG DI MY LIST ANIME</p>
+            </div>
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium mb-2">EMAIL</label>
+                    <input type="email" id="email" name="email" required
+                        class="w-full px-3 py-2 bg-gray-900 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                </div>
+                <div class="mb-6 relative">
+                    <label for="password" class="block text-sm font-medium mb-2">PASSWORD</label>
+                    <div class="relative">
+                        <input type="password" id="password" name="password" required
+                            class="w-full px-3 py-2 bg-gray-900 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent pr-10">
+                        <span
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-gray-500 hover:text-gray-300"
+                            onclick="togglePasswordVisibility()">
+                            <i id="eye-icon" class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+                <button type="submit"
+                    class="w-full py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white font-semibold transition duration-200">Login
+                    -></button>
+            </form>
+            <p class="mt-6 text-center sm:text-left">Belum Punya Akun? <a href="./signUp.html"
+                    class="text-purple-500 hover:underline">Sign up</a></p>
+        </div>
+        <a href="/index.html"
+            class="mt-6 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold text-center w-full rounded-lg sm:rounded-b-none sm:absolute sm:bottom-0 sm:left-0 sm:right-0">Masuk
+            sebagai tamu</a>
+    </div>
+
+    <script src="../javascript/login.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
+
+</body>
+
+</html>

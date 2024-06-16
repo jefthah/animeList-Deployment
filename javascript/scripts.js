@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         data.data.forEach(anime => {
                             const resultItem = document.createElement('a');
-                            resultItem.href = `/html/detailAnimeNotLogin.html?id=${anime.mal_id}&email=${localStorage.getItem('email')}`;
+                            resultItem.href = `/html/Guest/detailAnimeNotLogin.html?id=${anime.mal_id}&email=${localStorage.getItem('email')}`;
                             resultItem.classList.add('p-2', 'hover:bg-gray-200', 'cursor-pointer', 'flex', 'items-center');
                             resultItem.innerHTML = `
                                 <img src="${anime.images.webp.image_url}" alt="${anime.title}" class="w-12 h-12 object-cover inline-block mr-2">
@@ -67,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 searchResults.classList.add('hidden');
             }
 
-            updateUserEmail();
         });
 
     fetchTopAnime();
@@ -100,7 +99,7 @@ async function fetchTopAnime() {
                 <img src="${anime.images.webp.image_url}" alt="${anime.title}" class="w-full h-48 object-cover">
                 <div class="p-4">
                     <h3 class="text-xl font-semibold">${anime.title}</h3>
-                    <a href="/html/detailAnimeNotLogin.html?id=${anime.mal_id}" class="mt-2 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Learn More</a>
+                    <a href="/html/Guest/detailAnimeNotLogin.html?id=${anime.mal_id}" class="mt-2 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Learn More</a>
                 </div>
             `;
             animeCardsContainer.appendChild(card);
@@ -128,7 +127,7 @@ async function fetchLatestAnime() {
                 <img src="${anime.images.webp.image_url}" alt="${anime.title}" class="w-full h-48 object-cover">
                 <div class="p-4">
                     <h3 class="text-xl font-semibold">${anime.title}</h3>
-                    <a href="/html/detailAnimeNotLogin.html?id=${anime.mal_id}" class="mt-2 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Learn More</a>
+                    <a href="/html/Guest/detailAnimeNotLogin.html?id=${anime.mal_id}" class="mt-2 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Learn More</a>
                 </div>
             `;
             latestCardsContainer.appendChild(card);
@@ -157,7 +156,7 @@ async function fetchLatestReviews(page = 1) {
                     <h3 class="text-xl font-semibold">${review.title}</h3>
                     <p class="mt-1 text-gray-400">Rating: ${review.rating}</p>
                     <p class="mt-2">${review.review}</p>
-                    <p class="mt-2 text-blue-400">username: ${review.user.username}</p>
+                    <p class="mt-2 text-blue-400">Review By ${review.user.username}</p>
                 </div>
             `;
             reviewCardsContainer.prepend(card); // Prepend the card to the container
