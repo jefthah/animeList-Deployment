@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loader = document.getElementById('loader');
     loader.style.display = 'flex';
 
-    fetch('https://mylistanime-api.vercel.app/animes', {
+    fetch('https://mylistanime-api-anime.vercel.app/animes', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function deleteReview(animeId) {
-        fetch(`https://mylistanime-api.vercel.app/animes/${animeId}`, {
+        fetch(`https://mylistanime-api-anime.vercel.app/animes/${animeId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

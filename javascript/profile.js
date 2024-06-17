@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Memuat navbar dari komponen HTML eksternal
+    // Load navbar from external HTML file
     fetch('/html/layout/NavbarLogin.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-container').innerHTML = data;
 
-            // Initialize menu button for mobile menu
+            // Add event listeners for navbar functionalities
             document.getElementById('menu-button').addEventListener('click', function() {
                 var menu = document.getElementById('mobile-menu');
                 if (menu.classList.contains('hidden')) {
@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
 
-            // Initialize search input for desktop
             document.getElementById('search-input').addEventListener('input', function() {
                 const query = this.value.trim();
                 if (query.length > 2) {
@@ -29,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
 
-            // Initialize search input for mobile
             document.getElementById('mobile-search-input').addEventListener('input', function() {
                 const query = this.value.trim();
                 if (query.length > 2) {
@@ -39,13 +37,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
 
-            // Function to perform search
             function performSearch(query, resultContainerId) {
                 fetch(`https://api.jikan.moe/v4/anime?q=${query}&limit=10`)
                     .then(response => response.json())
                     .then(data => {
                         const searchResults = document.getElementById(resultContainerId);
-                        searchResults.innerHTML = ''; // Clear previous results
+                        searchResults.innerHTML = '';
 
                         data.data.forEach(anime => {
                             const resultItem = document.createElement('a');
@@ -65,33 +62,55 @@ document.addEventListener("DOMContentLoaded", function() {
                     });
             }
 
-            // Function to clear search results
             function clearSearchResults(resultContainerId) {
                 const searchResults = document.getElementById(resultContainerId);
                 searchResults.innerHTML = '';
                 searchResults.classList.add('hidden');
             }
 
-            // Update user username in the navbar
-            function updateUserUsername() {
-                const username = localStorage.getItem('username');
-                if (username) {
-                    const userUsernameElement = document.getElementById('user-username');
-                    const mobileUserUsernameElement = document.getElementById('mobile-user-username');
-                    userUsernameElement.textContent = username;
-                    mobileUserUsernameElement.textContent = username;
-                }
-            }
-
             updateUserUsername();
-        })
-        .catch(error => {
-            console.error('Error fetching navbar:', error);
         });
 
-
-    // Fetch initial data
     fetchTopAnime();
     fetchLatestAnime();
     fetchLatestReviews();
+
+    // Avatar change functionality
+    const changeAvatarBtn = document.getElementById('change-avatar-btn');
+    const avatarPlaceholder = document.getElementById('avatar-placeholder');
+    const imageModal = document.getElementById('image-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    avatarPlaceholder.addEventListener('click', function () {
+        imageModal.classList.remove('hidden');
+    });
+
+    closeModalBtn.addEventListener('click', function () {
+        imageModal.classList.add('hidden');
+    });
+
+    document.querySelectorAll('#image-modal button').forEach(button => {
+        button.addEventListener('click', function() {
+            const imgSrc = button.querySelector('img').src;
+            document.getElementById('change-avatar-btn').querySelector('img').src = imgSrc;
+            imageModal.classList.add('hidden');
+        });
+    });
+
+    // Fetch logged-in user's username and email
+    function updateUserUsername() {
+        const username = localStorage.getItem('username');
+        fetch(`https://mylistanime-api-user.vercel.app/${username}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('User data:', data); // Log the response data to debug
+                if (data && data.username && data.email) {
+                    document.getElementById('username').innerText = data.username;
+                    document.getElementById('user-email').innerText = data.email;
+                } else {
+                    console.error('Invalid user data format:', data);
+                }
+            })
+            .catch(error => console.error('Error fetching user data:', error));
+    }
 });

@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Memuat navbar dari komponen HTML eksternal
     fetch('/html/layout/NavbarLogin.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-container').innerHTML = data;
 
-            // Inisialisasi ulang event listener yang diperlukan
             document.getElementById('menu-button').addEventListener('click', function() {
                 var menu = document.getElementById('mobile-menu');
                 if (menu.classList.contains('hidden')) {
@@ -42,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     .then(response => response.json())
                     .then(data => {
                         const searchResults = document.getElementById(resultContainerId);
-                        searchResults.innerHTML = ''; // Hapus hasil sebelumnya
+                        searchResults.innerHTML = '';
 
                         data.data.forEach(anime => {
                             const resultItem = document.createElement('a');
@@ -67,8 +65,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 searchResults.innerHTML = '';
                 searchResults.classList.add('hidden');
             }
-
-            // Setelah navbar dimuat dan event listener disiapkan, panggil fungsi updateUserUsername dan fetchAnimeDetails
             updateUserUsername();
             fetchAnimeDetails();
         });
@@ -77,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const animeId = params.get('id');
     const username = params.get('username');
 
-    // Fungsi untuk memperbarui username pengguna di navbar
     function updateUserUsername() {
         const username = localStorage.getItem('username');
         if (username) {
@@ -103,9 +98,28 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
 
-    // Fungsi untuk mengambil detail anime
+    function showLoading() {
+        const loadingElement = document.getElementById('loading');
+        loadingElement.classList.remove('hidden');
+    }
+
+    function hideLoading() {
+        const loadingElement = document.getElementById('loading');
+        loadingElement.classList.add('hidden');
+    }
+
+    function showReviewLoading() {
+        const reviewLoadingElement = document.getElementById('review-loading');
+        reviewLoadingElement.classList.remove('hidden');
+    }
+
+    function hideReviewLoading() {
+        const reviewLoadingElement = document.getElementById('review-loading');
+        reviewLoadingElement.classList.add('hidden');
+    }
+
     function fetchAnimeDetails() {
-        // Fetch Anime Details
+        showLoading();
         fetch(`https://api.jikan.moe/v4/anime/${animeId}`)
             .then(response => response.json())
             .then(data => {
@@ -120,7 +134,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('anime-description').textContent = anime.synopsis;
                 document.getElementById('anime-trailer-title').textContent = `${anime.title} Trailer`;
 
-                // Populate Anime Trailer
                 if (anime.trailer.embed_url) {
                     document.getElementById('anime-trailer').innerHTML = `
                         <iframe width="100%" height="100%" src="${anime.trailer.embed_url}" frameborder="0" allowfullscreen></iframe>
@@ -129,7 +142,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     document.getElementById('anime-trailer').textContent = 'No trailer available';
                 }
 
-                // Fetch Related Anime
                 return fetch(`https://api.jikan.moe/v4/anime/${animeId}/recommendations`);
             })
             .then(response => response.json())
@@ -151,53 +163,55 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
             })
             .then(() => {
-                // Pastikan elemen Write Review sudah ada sebelum menambahkan event listener
                 const writeReviewLink = document.getElementById('write-review-link');
                 writeReviewLink.href = `reviewPage.html?id=${animeId}&username=${username || localStorage.getItem('username')}`;
             })
+            .then(() => {
+                fetchAndDisplayReviews();
+            })
             .catch(error => {
                 console.error('Error fetching anime details:', error);
+            })
+            .finally(() => {
+                hideLoading();
             });
+    }
 
-        // Fetch and Display Reviews
-        const token = localStorage.getItem('auth_token'); // Ambil token dari localStorage
-        console.log('Token digunakan untuk mengambil reviews:', token); // Debug log token
-
-        fetch(`https://mylistanime-api.vercel.app/animes/${animeId}/reviews`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Tambahkan header Authorization
-            }
-        })
-        .then(response => {
-            console.log('Fetch reviews response status:', response.status);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(reviews => {
-            console.log('Reviews fetched:', reviews);
-            const reviewsContainer = document.getElementById('anime-reviews');
-            if (reviews.length === 0) {
-                reviewsContainer.innerHTML = '<p>No reviews available.</p>';
-                return;
-            }
-            reviews.forEach(review => {
-                const reviewElement = document.createElement('div');
-                reviewElement.classList.add('bg-gray-800', 'p-4', 'rounded-lg', 'shadow-lg');
-                reviewElement.innerHTML = `
-                    <h3 class="text-xl font-semibold">${review.title}</h3>
-                    <p class="mt-2">${review.review}</p>
-                    <p class="mt-2">Rating: ${review.rating}</p>
-                `;
-                reviewsContainer.appendChild(reviewElement);
+    function fetchAndDisplayReviews() {
+        showReviewLoading();
+        const animeTitle = document.getElementById('anime-title').textContent;
+        
+        fetch(`https://mylistanime-api-anime.vercel.app/animes/reviews?title=${encodeURIComponent(animeTitle)}`)
+            .then(response => response.json())
+            .then(reviews => {
+                const reviewsContainer = document.getElementById('anime-reviews');
+                reviewsContainer.innerHTML = ''; // Clear previous reviews
+                if (reviews.length === 0) {
+                    reviewsContainer.innerHTML = '<p>No reviews available.</p>';
+                    return;
+                }
+                reviews.forEach(review => {
+                    const reviewElement = document.createElement('div');
+                    reviewElement.classList.add('flex', 'items-start', 'bg-gray-900', 'p-4', 'rounded-lg', 'shadow-lg', 'space-x-4');
+                    reviewElement.innerHTML = `
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 md:w-16 md:h-16 bg-gray-700 rounded-full"></div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold">${review.user.username}</h3>
+                            <p>Rating: ${review.rating}</p>
+                            <p>${review.review}</p>
+                        </div>
+                    `;
+                    reviewsContainer.appendChild(reviewElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching reviews:', error);
+                document.getElementById('anime-reviews').innerHTML = '<p>Failed to fetch reviews.</p>';
+            })
+            .finally(() => {
+                hideReviewLoading();
             });
-        })
-        .catch(error => {
-            console.error('Error fetching reviews:', error);
-            document.getElementById('anime-reviews').innerHTML = '<p>Failed to fetch reviews.</p>';
-        });
     }
 });

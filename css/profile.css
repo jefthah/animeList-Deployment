@@ -1,0 +1,66 @@
+.bg-cover-custom {
+    background-image: url('/images/ListAnime.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+    .bg-cover-custom {
+        background-size: contain;
+        background-position: top;
+    }
+}
+
+.profile-img-container {
+    margin-top: -3rem; /* Adjust the margin to move the profile picture higher */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.username-container {
+    margin-top: 5rem; /* Adjust this value to ensure space between the image and the username */
+}
+
+.profile-img-placeholder {
+    width: 150px;
+    height: 150px;
+    background-color: #d1d5db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    position: relative;
+}
+
+.profile-img-placeholder i {
+    font-size: 2rem;
+    color: #4b5563;
+}
+
+.profile-img-placeholder:hover {
+    background-color: #9ca3af;
+    cursor: pointer;
+}
+
+.profile-img-placeholder:hover i {
+    color: #374151;
+}
+
+.text-blueGray-700 {
+    color: #3d4852;
+}
+
+.text-blueGray-400 {
+    color: #cbd5e0;
+}
+
+.text-blueGray-600 {
+    color: #718096;
+}
+
+.text-blueGray-200 {
+    color: #edf2f7;
+}

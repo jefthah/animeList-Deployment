@@ -1,138 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MylistAnime</title>
+    <title>MylistAnime - Profil</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
     <link rel="stylesheet" href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css" />
     <link rel="stylesheet"
         href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
-
+    <link rel="stylesheet" href="/css/profile.css">
 </head>
 
 <body class="bg-gray-900 text-white">
 
-    <!-- NAVBAR -->
-    <nav class="bg-gray-800 p-4">
-        <div class="container-md mx-4 mx-md-8 flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <div class="flex items-center">
-                    <img src="/images/logo.png" alt="Logo" class="h-20 w-15"> <!-- Larger logo -->
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-3xl font-semibold">My Anime List</span>
-                    <span class="text-sm text-center">AnimeRating</span>
-                </div>
-            </div>
-            <div class="hidden lg:flex items-center space-x-4 relative">
-                <input id="search-input" type="text" placeholder="Search"
-                    class="bg-gray-700 text-white rounded px-3 py-2 focus:outline-none text-lg">
-                <!-- Placeholder text lebih besar -->
-                <div id="search-results"
-                    class="absolute bg-white text-black rounded w-full mt-12 max-h-96 overflow-y-auto hidden"></div>
-                <a id="home-link" href="#" class="text-white hover:text-gray-400 text-lg">Home</a>
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
 
-                <!--SCRIPT untuk mengatur href index/homeLogin-->
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        // Ambil elemen link Home
-                        var homeLink = document.getElementById('home-link');
-                        // Ambil elemen user-email
-                        var userEmail = document.getElementById('user-email');
-
-                        // Status email
-                        var hasEmail = userEmail.innerText.trim();
-
-                        // Jika ada email, arahkan ke homeLogin.html, jika tidak, arahkan ke index.html
-                        homeLink.href = hasEmail ? "../html/homeLogin.html" : "../index.html";
-                    });
-                </script>
-                <a href="/html/genre.html" class="text-white hover:text-gray-400 text-lg">Genre</a>
-                <a href="/html/myList.html" class="text-white hover:text-gray-400 text-lg">My List</a>
-
-                <!-- Bagian email dan sign in navbar-->
-                <div class="relative group">
-                    <span id="user-email" class="hover-email text-white text-lg cursor-pointer">user@example.com</span>
-                    <!-- Menampilkan email sebagai teks -->
-                    <div
-                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-40">
-                        <a id="profile-link" href="/html/profile.html"
-                            class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
-                        <a id="logout-link" href="../html/login.html"
-                            class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
-                    </div>
-                </div>
-                <a id="sign-in-link" href="/html/login.html"
-                    class="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700 text-lg">Sign In</a>
-
-                <!-- Script untuk mengatur tampilan berdasarkan data email -->
-                <script>
-                    // Setelah pengguna berhasil login
-                    const email = localStorage.getItem('email');
-                    if (email) {
-                        // Tampilkan email pada navbar atau di mana pun Anda ingin menampilkannya
-                        document.getElementById('user-email').textContent = email;
-                        // Tampilkan menu Profile dan Logout
-                        document.getElementById('profile-link').classList.remove('hidden');
-                        document.getElementById('logout-link').classList.remove('hidden');
-                        // Sembunyikan tombol Sign In
-                        document.getElementById('sign-in-link').classList.add('hidden');
-                    }
-                </script>
-
-
-
-            </div>
-            <div class="lg:hidden flex items-center">
-                <button id="menu-button" class="text-white focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <div id="mobile-menu"
-            class="md:hidden hidden overflow-hidden max-h-0 transition-max-height duration-300 ease-out">
-            <div class="flex flex-col space-y-2 mt-2">
-                <input id="mobile-search-input" type="text" placeholder="Search"
-                    class="bg-gray-700 text-white rounded px-3 py-2 focus:outline-none text-lg">
-                <!-- Placeholder text lebih besar -->
-                <a href="../html/homeLogin.html" class="text-white hover:text-gray-400 text-lg">Home</a>
-                <a href="../html/homeLogin.html" class="text-white hover:text-gray-400 text-lg">Genre</a>
-                <a href="/html/myList.html" class="text-white hover:text-gray-400 text-lg">My List</a>
-                <a id="sign-in-link" href="/html/login.html"
-                    class="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700 text-lg">Sign In</a>
-                <div id="user-email-container" class="hidden relative group">
-                    <span id="user-email" class="hover-email text-white text-lg"></span>
-                    <div
-                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
-    <!--ISI DATA PROFILE-->
+    <!-- Profile Section -->
     <main class="profile-page">
         <section class="relative block h-500-px">
             <div class="relative block h-500-px">
-                <div class="absolute top-0 w-full h-full bg-center bg-cover" style="
-                    background-image: url('https://img.freepik.com/free-photo/anime-style-galaxy-background_23-2151133974.jpg?t=st=1718213509~exp=1718217109~hmac=981e0e7fb24a2457123d5eaaa907bd6dca6395ec585ee9c8fb5413e4888661d4&w=1380');
-                    background-size: cover;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    z-index: -10;">
-                    <span id="blackOverlay"
-                        class="w-full h-full absolute opacity-50 bg-black pointer-events-none"></span>
+                <div class="absolute top-0 w-full h-full bg-cover-custom" style="z-index: -10;">
                 </div>
             </div>
             <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
@@ -147,131 +38,58 @@
             <div class="container mx-auto px-4">
                 <div
                     class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-                    <div class="px-6 ">
+                    <div class="px-6">
 
-                        <!--GAMBAR PROFILE-->
-
-                        <<div class="flex flex-wrap justify-center">
-                            <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                                <div class="relative">
-                                    <!-- Klik gambar untuk memunculkan modal -->
-                                    <button id="change-avatar-btn" class="focus:outline-none">
-                                        <img alt="..."
-                                            src="https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-859.jpg?t=st=1718214786~exp=1718218386~hmac=fd25e6f1a40f483a9134c185dd09792d63f4259ca6f0a638828b289a7d4f623b&w=740"
-                                            class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px cursor-pointer">
-                                    </button>
-                                </div>
-                            </div>
-                    </div>
-
-                    <!-- Modal untuk memilih gambar -->
-                    <div id="image-modal" aria-hidden="true"
-                        class="hidden fixed inset-0 z-50 overflow-hidden flex items-center justify-center">
-                        <!-- Background overlay -->
-                        <div class="fixed inset-0 bg-black opacity-50"></div>
-                        <div class="relative w-full max-w-md px-4">
-                            <div class="bg-white rounded-lg shadow relative dark:bg-gray-700">
-                                <div class="flex justify-end p-2">
-                                    <button id="close-modal-btn" type="button"
-                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="p-4">
-                                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Pilih Gambar
-                                        Profil</h3>
-                                    <!-- Daftar gambar yang dapat dipilih -->
-                                    <div class="grid grid-cols-3 gap-4">
-                                        <button class="focus:outline-none" onclick="changeAvatar(this)">
-                                            <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi1.wp.com%2Fpm1.narvii.com%2F7017%2F5d321c168391be05973bcebf0ddca062245bce9dr1-2000-2000v2_uhq.jpg&f=1&nofb=1&ipt=e5b7d186c55b11230703b5963ed23fbbf5f1740189dc1fed8485f804da6a409a&ipo=images"
-                                                alt="Avatar 1" class="w-full h-auto rounded-lg cursor-pointer">
-                                        </button>
-                                        <button class="focus:outline-none" onclick="changeAvatar(this)">
-                                            <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F4b%2Ff4%2F28%2F4bf42884b33bd0e4699943a88d1fb0f5.jpg&f=1&nofb=1&ipt=0c2d1001057df11974323daca3792c6983bfc4e45391eefbaf945c8967a50d01&ipo=images"
-                                                alt="Avatar 2" class="w-full h-auto rounded-lg cursor-pointer">
-                                        </button>
-                                        <button class="focus:outline-none" onclick="changeAvatar(this)">
-                                            <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.zerochan.net%2FTexas.full.2824483.jpg&f=1&nofb=1&ipt=d99e55b4a533fe922eac4d264dcf7cf6e1479e4fad7424261c9fd0ecddd960eb&ipo=images"
-                                                alt="Avatar 3" class="w-full h-auto rounded-lg cursor-pointer">
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <script>
-                        function changeAvatar(button) {
-                            const imgSrc = button.querySelector('img').src;
-                            document.getElementById('change-avatar-btn').querySelector('img').src = imgSrc;
-                            document.getElementById('image-modal').classList.add('hidden');
-                        }
-
-                        const changeAvatarBtn = document.getElementById('change-avatar-btn');
-                        const imageModal = document.getElementById('image-modal');
-                        const closeModalBtn = document.getElementById('close-modal-btn');
-
-                        // Tampilkan modal ketika gambar di klik
-                        changeAvatarBtn.addEventListener('click', function () {
-                            imageModal.classList.remove('hidden');
-                        });
-
-                        // Tutup modal ketika tombol ditutup diklik
-                        closeModalBtn.addEventListener('click', function () {
-                            imageModal.classList.add('hidden');
-                        });
-                    </script>
-
-
-
-
-                    <!--DATA PROFILE-->
-                    <div class="my-6 overflow-hidden invisible">line</div>
-                    <div class="text-center mt-12">
-                        <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                            Muhammad Wibisana
-                        </h3>
-                        <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                            <!-- <i class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-                                Jakarta -->
-                        </div>
-                        <div class="mb-2 text-blueGray-600 mt-10">
-                            <i class="fas fa-envelope mr-2 text-lg text-blueGray-400"></i>email123@gmail.com
-                        </div>
-                        <div class="mb-2 text-blueGray-600">
-                            <i class="fas fa-star mr-2 text-lg text-blueGray-400"></i>
-                            Favorite Anime Genre - Yuri, NTR, Milf, Slice of Life
-                        </div>
-                    </div>
-                    <div class="mt-10 pt-10 border-t border-blueGray-200 text-center">
+                        <!-- Profile Image and Modal -->
                         <div class="flex flex-wrap justify-center">
-                            <div class="w-full lg:w-9/12 px-4">
-                                <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique officia sequi
-                                    obcaecati architecto neque veniam eligendi, atque, repellendus esse ullam
-                                    delectus, tempore temporibus cupiditate debitis laborum voluptatem consequatur
-                                    culpa nam.
-                                </p>
-                                <a href="#" class="font-normal text-pink-500 overflow-hidden invisible">nandemonai</a>
+                            <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+                                <div class="relative profile-img-container">
+                                    <!-- Click image to open modal -->
+                                    <div id="avatar-placeholder" class="profile-img-placeholder">
+                                        <i class="fas fa-camera"></i>
+                                        <span class="sr-only">Tambah Foto</span>
+                                    </div>
+                                    <button id="change-avatar-btn" class="focus:outline-none hidden">
+                                        <img id="avatar-img" alt="Upload foto profil anda" src="default-avatar.png"
+                                            class="shadow-xl rounded-full h-auto align-middle border-none absolute max-w-150-px cursor-pointer">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Profile Data -->
+                        <div class="text-center mt-4 username-container">
+                            <h3 id="username" class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+                                username user
+                            </h3>
+                            <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                                <i class="fas fa-envelope mr-2 text-lg text-blueGray-400"></i>
+                                <span id="email">user@example.com</span>
+                            </div>
+                            <div class="mb-2 text-blueGray-600 mt-10">
+                                <i class="fas fa-envelope mr-2 text-lg text-blueGray-400" id="email"></i>
+                            </div>
+                        </div>
+                        <div class="mt-10 pt-10 border-t border-blueGray-200 text-center">
+                            <div class="flex flex-wrap justify-center">
+                                <div class="w-full lg:w-9/12 px-4">
+                                    <p id="description" class="mb-4 text-lg leading-relaxed text-blueGray-700">
+                                        Silahkan isi deskripsi anda
+                                    </p>
+                                    <a href="#" class="font-normal text-pink-500 overflow-hidden invisible">nandemonai</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="text-center py-6">
+                        <!-- Modal toggle button -->
+                        <button
+                            class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            type="button" data-modal-toggle="authentication-modal"
+                            style="position: absolute; left: 50%; transform: translateX(-50%);">
+                            Edit Profil
+                        </button>
+                    </div>
                 </div>
-                <div class="text-center py-6">
-                    <!-- Modal toggle button -->
-                    <button
-                        class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        type="button" data-modal-toggle="authentication-modal"
-                        style="position: absolute; left: 50%; transform: translateX(-50%);">
-                        Edit Profile
-                    </button>
-                </div>
-            </div>
             </div>
             <footer class="relative bg-blueGray-200 pt-12 pb-6 mt-12">
                 <div class="container mx-auto px-4">
@@ -287,108 +105,7 @@
         </section>
     </main>
 
-
-
-    <script src="/javascript/scripts.js"></script>
+    <script src="/javascript/profile.js"></script>
 </body>
 
 </html>
-
-
-
-
-<!-- Modal -->
-<div class="max-w-2xl mx-auto">
-
-    <!-- Main modal -->
-    <div id="authentication-modal" aria-hidden="true"
-        class="hidden overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center">
-        <div class="relative w-full max-w-lg px-4 h-full md:h-auto">
-            <!-- Modal content -->
-            <div class="bg-white rounded-lg shadow relative dark:bg-gray-700">
-                <div class="flex justify-end p-2">
-                    <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-                        data-modal-toggle="authentication-modal">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </button>
-                </div>
-                <form class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8" action="#">
-                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">Edit Profile</h3>
-                    <div>
-                        <label for="text"
-                            class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Username</label>
-                        <input type="text" name="username" id="username"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Jefta Supraja" readonly>
-                    </div>
-                    <div>
-                        <label for="email"
-                            class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Email</label>
-                        <input type="email" name="email" id="email" placeholder="jefta@gmail.com"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            readonly>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <!-- Kolom 1 -->
-                        <div>
-                            <input id="genre1" type="checkbox" class=""">
-                            <label for=" genre1" class="inline-flex items-center cursor-pointer">
-                            <span class="text-gray-700 dark:text-gray-300">Slice of Life</span>
-                            </label>
-                        </div>
-                        <div>
-                            <input id="genre2" type="checkbox" class="">
-                            <label for="genre2" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Adventure</span>
-                            </label>
-                        </div>
-                        <div>
-                            <input id="genre3" type="checkbox" class="">
-                            <label for="genre3" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Isekai</span>
-                            </label>
-                        </div>
-                        <!-- Kolom 2 -->
-                        <div>
-                            <input id="genre4" type="checkbox" class="">
-                            <label for="genre4" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Horror</span>
-                            </label>
-                        </div>
-                        <div>
-                            <input id="genre5" type="checkbox" class="">
-                            <label for="genre5" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Romance</span>
-                            </label>
-                        </div>
-                        <div>
-                            <input id="genre6" type="checkbox" class="">
-                            <label for="genre6" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Olahraga</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Bio Profile -->
-                    <div>
-                        <label for="bio"
-                            class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Bio</label>
-                        <textarea name="bio" id="bio" rows="4"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Tulis bio profil Anda di sini..."></textarea>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ubah</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>

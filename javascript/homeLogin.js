@@ -145,7 +145,7 @@ async function fetchLatestReviews(page = 1) {
     const reviewCardsContainer = document.getElementById('review-cards');
     
     try {
-        const response = await fetch(`https://mylistanime-api.vercel.app/animes/reviews?page=${page}`);
+        const response = await fetch(`https://mylistanime-api-anime.vercel.app/animes/reviews?page=${page}`);
         const data = await response.json();
 
         data.forEach(review => {

@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function fetchAnimeDetails() {
         try {
             // Ambil data dari server internal
-            const response = await fetch(`https://mylistanime-api.vercel.app/animes/${animeId}`, {
+            const response = await fetch(`https://mylistanime-api-anime.vercel.app/animes/${animeId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         try {
-            const reviewResponse = await fetch(`https://mylistanime-api.vercel.app/animes/${animeId}`, {
+            const reviewResponse = await fetch(`https://mylistanime-api-anime.vercel.app/animes/${animeId}`, {
                 method: 'PATCH', // Menggunakan PATCH sesuai dokumentasi API
                 headers: {
                     'Content-Type': 'application/json',

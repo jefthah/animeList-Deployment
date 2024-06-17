@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                         return;
                     }
 
-                    const reviewResponse = await fetch('https://mylistanime-api.vercel.app/animes', {
+                    const reviewResponse = await fetch('https://mylistanime-api-anime.vercel.app/animes', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

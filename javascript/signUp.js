@@ -15,7 +15,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
     }
 
     try {
-        const response = await fetch('https://mylistanime-api.vercel.app/register', {
+        const response = await fetch('https://mylistanime-api-user.vercel.app/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

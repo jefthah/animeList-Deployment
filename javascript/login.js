@@ -18,7 +18,7 @@ document.getElementById('login-form').addEventListener('submit', async function(
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch('https://mylistanime-api.vercel.app/login', {
+        const response = await fetch('https://mylistanime-api-user.vercel.app/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
