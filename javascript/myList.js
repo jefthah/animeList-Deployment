@@ -1,43 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const token = localStorage.getItem('auth_token'); // Get token from localStorage
-    console.log('Token used to fetch anime list:', token); // Debug log token
+    const token = localStorage.getItem('auth_token'); // Dapatkan token dari localStorage
+    console.log('Token digunakan untuk mengambil daftar anime:', token); // Debug log token
 
-    // Show loader
+    // Tampilkan loader
     const loader = document.getElementById('loader');
     loader.style.display = 'flex';
-
-    // Sembunyikan tombol edit review pada awalnya
-    const editReviewButton = document.getElementById('edit-review-button');
-    editReviewButton.style.display = 'none';
 
     fetch('https://mylistanime-api.vercel.app/animes', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // Add Authorization header
+            'Authorization': `Bearer ${token}` // Tambahkan header Authorization
         }
     })
     .then(response => {
-        console.log('Fetch anime list response status:', response.status);
+        console.log('Status respon fetch daftar anime:', response.status);
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Kesalahan HTTP! status: ${response.status}`);
         }
         return response.json();
     })
     .then(animes => {
-        console.log('Anime list fetched:', animes);
+        console.log('Daftar anime berhasil diambil:', animes);
         const animeListContainer = document.getElementById('anime-list');
         const noReviewsMessage = document.getElementById('no-reviews');
 
-        // Hide loader
+        // Sembunyikan loader
         loader.style.display = 'none';
 
         if (animes.length === 0) {
             noReviewsMessage.classList.remove('hidden');
-            editReviewButton.style.display = 'none'; // Hide edit review button if no reviews
         } else {
             noReviewsMessage.classList.add('hidden');
-            editReviewButton.style.display = 'block'; // Show edit review button if there are reviews
         }
 
         animes.forEach(anime => {
@@ -52,19 +46,95 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p class="mt-2">Genres: ${anime.genres}</p>
                     <p class="mt-2">Episodes: ${anime.episodes}</p>
                     <p class="mt-2">Year: ${anime.year}</p>
+                    <button class="edit-review-button mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-id="${anime.id}">
+                        Edit Review
+                    </button>
+                    <button class="delete-review-button mt-4 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" data-id="${anime.id}">
+                        Hapus Review
+                    </button>
                 </div>
             `;
             animeListContainer.prepend(card); // Prepend the card to the container
         });
+
+        // Tambahkan event listeners untuk tombol hapus
+        document.querySelectorAll('.delete-review-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const animeId = this.getAttribute('data-id');
+                confirmDeleteReview(animeId);
+            });
+        });
+
+        // Tambahkan event listeners untuk tombol edit
+        document.querySelectorAll('.edit-review-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const animeId = this.getAttribute('data-id');
+                window.location.href = `/html/editListReview.html?id=${animeId}`;
+            });
+        });
     })
     .catch(error => {
         console.error('Error fetching anime list:', error);
-        // Hide loader
+        // Sembunyikan loader
         loader.style.display = 'none';
-        document.getElementById('anime-list').innerHTML = '<p>Failed to fetch anime list.</p>';
+        document.getElementById('anime-list').innerHTML = '<p>Gagal mengambil daftar anime.</p>';
     });
 
-    // Function to get query parameters
+    function confirmDeleteReview(animeId) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda tidak dapat mengembalikan review ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteReview(animeId);
+            }
+        });
+    }
+
+    function deleteReview(animeId) {
+        fetch(`https://mylistanime-api.vercel.app/animes/${animeId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json();
+            } else if (response.status === 401) {
+                throw new Error('Tidak terotorisasi.');
+            } else if (response.status === 404) {
+                throw new Error('Anime tidak ditemukan.');
+            } else {
+                throw new Error('Terjadi kesalahan.');
+            }
+        })
+        .then(data => {
+            if (!data.error) {
+                Swal.fire(
+                    'Dihapus!',
+                    'Anime berhasil dihapus.',
+                    'success'
+                ).then(() => {
+                    window.location.reload(); // Refresh halaman untuk memperbarui perubahan
+                });
+            } else {
+                Swal.fire('Kesalahan', data.message, 'error');
+            }
+        })
+        .catch(error => {
+            Swal.fire('Kesalahan', error.message, 'error');
+        });
+    }
+
+    // Fungsi untuk mendapatkan parameter query
     function getQueryParams() {
         const params = {};
         window.location.search.replace(/^\?/, '').split('&').forEach(param => {
@@ -74,12 +144,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return params;
     }
 
-    // Function to update user username in the navbar
+    // Fungsi untuk memperbarui nama pengguna di navbar
     function updateUserUsername() {
         const params = getQueryParams();
         const username = params.username || localStorage.getItem('username');
         if (username) {
-            localStorage.setItem('username', username); // Save username to localStorage
+            localStorage.setItem('username', username); // Simpan username ke localStorage
             const userUsernameElement = document.getElementById('user-username');
             const mobileUserUsernameElement = document.getElementById('mobile-user-username');
             userUsernameElement.textContent = username;

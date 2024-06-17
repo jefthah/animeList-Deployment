@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="bg-gray-900 text-white">
@@ -29,106 +30,8 @@
         </div>
     </div>
 
-    <!-- Modal toggle button -->
-    <button id="edit-review-button" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        type="button" data-modal-toggle="authentication-modal" style="position: absolute; left: 50%; transform: translateX(-50%);">
-        Edit Review
-    </button>
-
-    <!-- Modal -->
-    <div class="max-w-2xl mx-auto">
-        <!-- Main modal -->
-        <div id="authentication-modal" aria-hidden="true"
-        class="hidden overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center">
-        <div class="relative w-full max-w-lg px-4 h-full md:h-auto">
-            <!-- Modal content -->
-            <div class="bg-white rounded-lg shadow relative dark:bg-gray-700">
-                <div class="flex justify-end p-2">
-                    <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-                        data-modal-toggle="authentication-modal">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </button>
-                </div>
-                <form class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8" action="#">
-                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">Judul Anime</h3>
-                    <div>
-                        <label for="text" class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Judul</label>
-                        <input type="text" name="username" id="username"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Jefta Supraja" readonly>
-                    </div>
-                    <div>
-                        <label for="email" class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Email</label>
-                        <input type="email" name="email" id="email" placeholder="jefta@gmail.com"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            readonly>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <!-- Kolom 1 -->
-                        <div>
-                            <input id="genre1" type="checkbox" class="">
-                            <label for="genre1" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Slice of Life</span>
-                            </label>
-                        </div>
-                        <div>
-                            <input id="genre2" type="checkbox" class="">
-                            <label for="genre2" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Adventure</span>
-                            </label>
-                        </div>
-                        <div>
-                            <input id="genre3" type="checkbox" class="">
-                            <label for="genre3" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Isekai</span>
-                            </label>
-                        </div>
-                        <!-- Kolom 2 -->
-                        <div>
-                            <input id="genre4" type="checkbox" class="">
-                            <label for="genre4" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Horror</span>
-                            </label>
-                        </div>
-                        <div>
-                            <input id="genre5" type="checkbox" class="">
-                            <label for="genre5" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Romance</span>
-                            </label>
-                        </div>
-                        <div>
-                            <input id="genre6" type="checkbox" class="">
-                            <label for="genre6" class="inline-flex items-center cursor-pointer">
-                                <span class="text-gray-700 dark:text-gray-300">Olahraga</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Bio Profile -->
-                    <div>
-                        <label for="bio" class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Bio</label>
-                        <textarea name="bio" id="bio" rows="4"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Tulis bio profil Anda di sini..."></textarea>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ubah</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-
-<script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>
-<script src="/javascript/myList.js"></script>
+    <script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>
+    <script src="/javascript/myList.js"></script>
 </body>
 
 </html>
-

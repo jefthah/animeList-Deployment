@@ -44,7 +44,7 @@ document.getElementById('login-form').addEventListener('submit', async function(
                 timer: 2000,
                 showConfirmButton: false
             }).then(() => {
-                window.location.href = `../html/homeLogin.html?username=${encodeURIComponent(username)}`;
+                window.location.href = `/html/homeLogin.html?username=${encodeURIComponent(username)}`;
             });
         } else {
             Swal.fire({

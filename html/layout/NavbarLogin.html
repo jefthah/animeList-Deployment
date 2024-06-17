@@ -1,20 +1,21 @@
 <!-- NavbarLogin.html -->
 <nav class="bg-gray-800 p-4">
     <div class="container mx-auto flex items-center justify-between">
-        <div class="flex items-center space-x-4">
+        <a href="/html/profileDeveloper/developerLogin.html" class="flex items-center space-x-4">
             <div class="flex items-center">
-                <img src="/images/Logo Without Background.png" alt="Logo" class="h-16 w-12"> <!-- Ukuran logo dikurangi -->
+                <img src="/images/logo.png" alt="Logo" class="h-20 w-15"> <!-- Larger logo -->
             </div>
             <div class="flex flex-col">
                 <span class="text-3xl font-semibold">My Anime List</span>
                 <span class="text-sm text-center">AnimeRating</span>
             </div>
-        </div>
-        <div class="hidden lg:flex items-center space-x-6"> <!-- Perbaiki jarak antar elemen -->
-            <input id="search-input" type="text" placeholder="Search"
-                class="bg-gray-700 text-white rounded px-4 py-2 focus:outline-none text-lg"> <!-- Perbaiki ukuran padding -->
-            <div id="search-results"
-                class="absolute bg-white text-black rounded w-full mt-2 max-h-96 overflow-y-auto hidden"></div>
+        </a>
+        <div class="hidden lg:flex items-center space-x-6 relative"> <!-- Perbaiki jarak antar elemen -->
+            <div class="relative-search-container">
+                <input id="search-input" type="text" placeholder="Search"
+                    class="bg-gray-700 text-white rounded px-4 py-2 focus:outline-none text-lg"> <!-- Perbaiki ukuran padding -->
+                <div id="search-results" class="hidden"></div>
+            </div>
             <a href="/html/homeLogin.html" class="text-white hover:text-gray-400 text-lg">Home</a>
             <a href="/html/genreLogin.html" class="text-white hover:text-gray-400 text-lg">Genre</a>
             <a href="/html/myList.html" class="text-white hover:text-gray-400 text-lg">My List</a>
@@ -23,7 +24,7 @@
                 <div
                     class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <a href="/html/profile.html" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
-                    <a id="logoutButton" href="/html/login.html"
+                    <a id="logoutButton" href="/html/signIn/login.html"
                         class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
                 </div>
             </div>
@@ -59,5 +60,3 @@
         </div>
     </div>
 </nav>
-
-

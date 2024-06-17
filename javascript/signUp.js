@@ -36,7 +36,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
                 timer: 2000,
                 showConfirmButton: false
             }).then(() => {
-                window.location.href = './login.html';
+                window.location.href = '/html/signIn/login.html';
             });
         } else if (response.status === 400) {
             Swal.fire({

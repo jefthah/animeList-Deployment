@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Review Anime</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.min.css">
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+
+    <!-- Review Section -->
+    <div class="container mx-auto p-4">
+        <!-- Loader -->
+        <div id="loader" class="flex justify-center items-center h-64">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="review-section" class="hidden">
+            <div class="bg-gray-800 p-4 rounded-lg">
+                <h2 class="text-2xl font-bold mb-4" id="anime-title">Review Anime</h2>
+                <div class="flex flex-col lg:flex-row items-center lg:items-start space-y-4 lg:space-y-0 lg:space-x-8">
+                    <div class="flex-shrink-0">
+                        <img id="anime-image" src="" alt="Anime Image" class="w-64 h-auto rounded-lg">
+                    </div>
+                    <div>
+                        <p id="anime-release" class="mb-2">Release: </p>
+                        <p id="anime-genre" class="mb-2">Genre: </p>
+                        <p id="anime-author" class="mb-2">Author: </p>
+                        <p id="anime-rating" class="mb-2">Rating: </p>
+                        <h2 class="text-2xl font-bold mt-4">Anime Description</h2>
+                        <p id="anime-description" class="mt-2">Description</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-gray-800 p-4 rounded-lg">
+                <h2 class="text-2xl font-bold mb-4">Edit Review</h2>
+                <form id="edit-review-form">
+                    <div class="mb-4">
+                        <label for="review-text" class="block text-lg">Review</label>
+                        <textarea id="review-text" class="bg-gray-700 text-white rounded px-3 py-2 focus:outline-none w-full" rows="4"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="review-rating" class="block text-lg">Rating</label>
+                        <select id="review-rating" class="bg-gray-700 text-white rounded px-3 py-2 focus:outline-none w-full">
+                            <option value="10">10 - Excellent</option>
+                            <option value="9">9 - Great</option>
+                            <option value="8">8 - Very Good</option>
+                            <option value="7">7 - Good</option>
+                            <option value="6">6 - Above Average</option>
+                            <option value="5">5 - Average</option>
+                            <option value="4">4 - Below Average</option>
+                            <option value="3">3 - Poor</option>
+                            <option value="2">2 - Very Poor</option>
+                            <option value="1">1 - Terrible</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white rounded px-4 py-2">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../javascript/editListReview.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
+</body>
+</html>

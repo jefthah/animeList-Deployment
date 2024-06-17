@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             document.getElementById('navbar-container').innerHTML = data;
 
-            // Inisialisasi ulang event listener yang diperlukan
             document.getElementById('menu-button').addEventListener('click', function() {
                 var menu = document.getElementById('mobile-menu');
                 if (menu.classList.contains('hidden')) {
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     .then(response => response.json())
                     .then(data => {
                         const searchResults = document.getElementById(resultContainerId);
-                        searchResults.innerHTML = ''; // Hapus hasil sebelumnya
+                        searchResults.innerHTML = ''; 
 
                         data.data.forEach(anime => {
                             const resultItem = document.createElement('a');
