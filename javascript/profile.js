@@ -141,4 +141,13 @@ document.addEventListener("DOMContentLoaded", function() {
     editProfileButton.addEventListener('click', function() {
         window.location.href = '/html/profileEdit.html';
     });
+
+    // Logout functionality
+    const logoutButton = document.getElementById('logout-button');
+    logoutButton.addEventListener('click', function() {
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('username');
+        localStorage.removeItem('email');
+        window.location.href = '/html/signIn/login.html';
+    });
 });
