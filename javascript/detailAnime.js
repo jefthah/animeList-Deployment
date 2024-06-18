@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             <p class="mt-2">Rating: ${relatedAnime.score || 'N/A'}</p>
                         </div>
                     `;
-                    relatedAnimeContainer.appendChild(card);
+                    relatedAnimeContainer.prepend(card); // Prepend the card to show the latest at the top
                 });
             })
             .then(() => {
@@ -177,10 +177,20 @@ document.addEventListener("DOMContentLoaded", function() {
             });
     }
 
+    function fetchUserProfile(username) {
+        return fetch(`https://mylistanime-api-user.vercel.app/${username}`)
+            .then(response => response.json())
+            .then(data => data.user)
+            .catch(error => {
+                console.error(`Error fetching user profile for ${username}:`, error);
+                return null;
+            });
+    }
+
     function fetchAndDisplayReviews() {
         showReviewLoading();
         const animeTitle = document.getElementById('anime-title').textContent;
-        
+
         fetch(`https://mylistanime-api-anime.vercel.app/animes/reviews?title=${encodeURIComponent(animeTitle)}`)
             .then(response => response.json())
             .then(reviews => {
@@ -190,21 +200,29 @@ document.addEventListener("DOMContentLoaded", function() {
                     reviewsContainer.innerHTML = '<p>No reviews available.</p>';
                     return;
                 }
-                reviews.forEach(review => {
-                    const reviewElement = document.createElement('div');
-                    reviewElement.classList.add('flex', 'items-start', 'bg-gray-900', 'p-4', 'rounded-lg', 'shadow-lg', 'space-x-4');
-                    reviewElement.innerHTML = `
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 md:w-16 md:h-16 bg-gray-700 rounded-full"></div>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold">${review.user.username}</h3>
-                            <p>Rating: ${review.rating}</p>
-                            <p>${review.review}</p>
-                        </div>
-                    `;
-                    reviewsContainer.appendChild(reviewElement);
+
+                // Sort reviews based on review ID to ensure latest reviews are on top
+                reviews.sort((a, b) => b.id - a.id);
+
+                const reviewPromises = reviews.map(review => {
+                    return fetchUserProfile(review.user.username).then(userProfile => {
+                        const reviewElement = document.createElement('div');
+                        reviewElement.classList.add('flex', 'items-start', 'bg-gray-900', 'p-4', 'rounded-lg', 'shadow-lg', 'space-x-4');
+                        reviewElement.innerHTML = `
+                            <div class="flex-shrink-0">
+                                <img src="${userProfile.image || 'default-avatar.png'}" alt="${review.user.username}" class="w-12 h-12 md:w-16 md:h-16 bg-gray-700 rounded-full object-cover">
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold">${review.user.username}</h3>
+                                <p>Rating: ${review.rating}</p>
+                                <p>${review.review}</p>
+                            </div>
+                        `;
+                        reviewsContainer.prepend(reviewElement); // Prepend to ensure the latest review is on top
+                    });
                 });
+
+                return Promise.all(reviewPromises);
             })
             .catch(error => {
                 console.error('Error fetching reviews:', error);

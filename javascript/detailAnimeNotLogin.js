@@ -162,16 +162,28 @@ document.addEventListener("DOMContentLoaded", function() {
                         reviewsContainer.innerHTML = '<p>No reviews available.</p>';
                         return;
                     }
-                    reviews.forEach(review => {
-                        const reviewElement = document.createElement('div');
-                        reviewElement.classList.add('bg-gray-800', 'p-4', 'rounded-lg', 'shadow-lg');
-                        reviewElement.innerHTML = `
-                            <h3 class="text-xl font-semibold">${review.user.username}</h3>
-                            <p class="mt-2">${review.review}</p>
-                            <p class="mt-2">Rating: ${review.rating}</p>
-                        `;
-                        reviewsContainer.appendChild(reviewElement);
+
+                    reviews.sort((a, b) => b.id - a.id); // Sort reviews by ID in descending order
+
+                    const reviewPromises = reviews.map(review => {
+                        return fetchUserProfile(review.user.username).then(userProfile => {
+                            const reviewElement = document.createElement('div');
+                            reviewElement.classList.add('flex', 'items-start', 'bg-gray-900', 'p-4', 'rounded-lg', 'shadow-lg', 'space-x-4');
+                            reviewElement.innerHTML = `
+                                <div class="flex-shrink-0">
+                                    <img src="${userProfile.image || 'default-avatar.png'}" alt="${review.user.username}" class="w-12 h-12 md:w-16 md:h-16 bg-gray-700 rounded-full object-cover">
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold">${review.user.username}</h3>
+                                    <p>Rating: ${review.rating}</p>
+                                    <p>${review.review}</p>
+                                </div>
+                            `;
+                            reviewsContainer.prepend(reviewElement); // Prepend to ensure the latest review is on top
+                        });
                     });
+
+                    return Promise.all(reviewPromises);
                 })
                 .catch(error => {
                     console.error('Error fetching reviews:', error);
@@ -184,17 +196,14 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => {
             console.error('Error fetching anime title:', error);
         });
-});
 
-document.getElementById('menu-button').addEventListener('click', function() {
-    var menu = document.getElementById('mobile-menu');
-    if (menu.classList.contains('hidden')) {
-        menu.classList.remove('hidden');
-        menu.style.maxHeight = menu.scrollHeight + 'px';
-    } else {
-        menu.style.maxHeight = '0';
-        menu.addEventListener('transitionend', function() {
-            menu.classList.add('hidden');
-        }, { once: true });
+    function fetchUserProfile(username) {
+        return fetch(`https://mylistanime-api-user.vercel.app/${username}`)
+            .then(response => response.json())
+            .then(data => data.user)
+            .catch(error => {
+                console.error(`Error fetching user profile for ${username}:`, error);
+                return null;
+            });
     }
 });

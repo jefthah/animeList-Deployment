@@ -69,76 +69,50 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             updateUserUsername();
-            updateUserProfile();
         });
 
-    // Fetch logged-in user's username and email
-    function updateUserProfile() {
-        const username = localStorage.getItem('username');
-        const usernameSpinner = document.getElementById('username-spinner');
-        const emailSpinner = document.getElementById('email-spinner');
+    // Handle profile form submission
+    const profileForm = document.getElementById('profile-form');
+    profileForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const formData = new FormData();
+        const profileImage = document.getElementById('profile-image').files[0];
+        const profileDesc = document.getElementById('profile-desc').value;
 
-        usernameSpinner.classList.remove('hidden'); // Show username spinner
-        emailSpinner.classList.remove('hidden'); // Show email spinner
+        if (profileImage) formData.append('image', profileImage);
+        if (profileDesc) formData.append('desc', profileDesc);
 
-        console.log("Fetching user data..."); // Log for debugging
+        // Mendapatkan token dari localStorage atau sumber lain
+        const token = localStorage.getItem('auth_token'); // Pastikan token disimpan di localStorage
 
-        fetch(`https://mylistanime-api-user.vercel.app/${username}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('User data:', data); // Log the response data to debug
-                if (data && data.user && data.user.username && data.user.email) {
-                    document.getElementById('username').innerText = data.user.username;
-                    document.getElementById('email').innerText = data.user.email;
-
-                    // Check if image and desc are null
-                    const userImage = data.user.image ? data.user.image : 'default-avatar.png';
-                    const userDesc = data.user.desc !== null ? data.user.desc : 'Tidak ada deskripsi tersedia';
-
-                    document.getElementById('avatar-img').src = userImage;
-                    document.getElementById('avatar-placeholder').style.backgroundImage = `url(${userImage})`;
-                    document.getElementById('description').innerText = userDesc;
-                } else {
-                    console.error('Invalid user data format:', data);
-                }
-            })
-            .catch(error => console.error('Error fetching user data:', error))
-            .finally(() => {
-                usernameSpinner.classList.add('hidden'); // Hide username spinner
-                emailSpinner.classList.add('hidden'); // Hide email spinner
-                console.log("User data fetched."); // Log for debugging
+        fetch('https://mylistanime-api-user.vercel.app/edit', {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.message);
+            }
+            Swal.fire('Berhasil', 'Profil berhasil diperbarui', 'success').then(() => {
+                window.location.href = '/html/profile.html';
             });
-    }
+        })
+        .catch(error => {
+            console.error('Error updating profile:', error);
+            Swal.fire('Gagal', 'Terjadi kesalahan saat memperbarui profil', 'error');
+        });
+    });
 
     function updateUserUsername() {
-        const params = getQueryParams();
-        const username = params.username || localStorage.getItem('username');
-        if (username) {
-            localStorage.setItem('username', username); // Simpan username ke localStorage jika ada di query params
-            const userUsernameElement = document.getElementById('user-username');
-            const mobileUserUsernameElement = document.getElementById('mobile-user-username');
-            if (userUsernameElement) userUsernameElement.textContent = username;
-            if (mobileUserUsernameElement) mobileUserUsernameElement.textContent = username;
-        }
+        const username = localStorage.getItem('username');
+        const userUsernameElement = document.getElementById('user-username');
+        const mobileUserUsernameElement = document.getElementById('mobile-user-username');
+        if (userUsernameElement) userUsernameElement.textContent = username;
+        if (mobileUserUsernameElement) mobileUserUsernameElement.textContent = username;
     }
-
-    function getQueryParams() {
-        const params = {};
-        window.location.search.replace(/^\?/, '').split('&').forEach(param => {
-            const [key, value] = param.split('=');
-            params[key] = decodeURIComponent(value);
-        });
-        return params;
-    }
-
-    // Redirect to edit profile page
-    const editProfileButton = document.querySelector('button[data-modal-toggle="authentication-modal"]');
-    editProfileButton.addEventListener('click', function() {
-        window.location.href = '/html/profileEdit.html';
-    });
 });
