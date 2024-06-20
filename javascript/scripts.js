@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // Memuat navbar dari komponen HTML eksternal
     fetch('/html/layout/NavbarNotLogin.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-container').innerHTML = data;
 
-            // Reinitialize any required JS here
             document.getElementById('menu-button').addEventListener('click', function() {
                 var menu = document.getElementById('mobile-menu');
                 if (menu.classList.contains('hidden')) {
@@ -41,11 +41,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     .then(response => response.json())
                     .then(data => {
                         const searchResults = document.getElementById(resultContainerId);
-                        searchResults.innerHTML = ''; // Clear previous results
+                        searchResults.innerHTML = ''; 
 
                         data.data.forEach(anime => {
                             const resultItem = document.createElement('a');
-                            resultItem.href = `/html/detailAnimeNotLogin.html?id=${anime.mal_id}&email=${localStorage.getItem('email')}`;
+                            resultItem.href = `/html/guest/detailAnimeNotLogin.html?id=${anime.mal_id}&username=${localStorage.getItem('username')}`;
                             resultItem.classList.add('p-2', 'hover:bg-gray-200', 'cursor-pointer', 'flex', 'items-center');
                             resultItem.innerHTML = `
                                 <img src="${anime.images.webp.image_url}" alt="${anime.title}" class="w-12 h-12 object-cover inline-block mr-2">
@@ -67,6 +67,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 searchResults.classList.add('hidden');
             }
 
+            updateUserUsername();
+        });
+        fetch('/html/footer/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-container').innerHTML = data;
         });
 
     fetchTopAnime();
@@ -99,7 +105,7 @@ async function fetchTopAnime() {
                 <img src="${anime.images.webp.image_url}" alt="${anime.title}" class="w-full h-48 object-cover">
                 <div class="p-4">
                     <h3 class="text-xl font-semibold">${anime.title}</h3>
-                    <a href="/html/detailAnimeNotLogin.html?id=${anime.mal_id}" class="mt-2 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Learn More</a>
+                    <a href="/html/guest/detailAnimeNotLogin.html?id=${anime.mal_id}&username=${localStorage.getItem('username')}" class="mt-2 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Learn More</a>
                 </div>
             `;
             animeCardsContainer.appendChild(card);
@@ -116,7 +122,7 @@ async function fetchLatestAnime() {
     const latestCardsContainer = document.getElementById('latest-cards');
     
     try {
-        const response = await fetch('https://api.jikan.moe/v4/anime?q=LATEST&sfw');
+        const response = await fetch('https://api.jikan.moe/v4/seasons/2024/summer');
         const data = await response.json();
         const latest8Anime = data.data.slice(0, 8);
 
@@ -127,7 +133,7 @@ async function fetchLatestAnime() {
                 <img src="${anime.images.webp.image_url}" alt="${anime.title}" class="w-full h-48 object-cover">
                 <div class="p-4">
                     <h3 class="text-xl font-semibold">${anime.title}</h3>
-                    <a href="/html/detailAnimeNotLogin.html?id=${anime.mal_id}" class="mt-2 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Learn More</a>
+                    <a href="/html/guest/detailAnimeNotLogin.html?id=${anime.mal_id}&username=${localStorage.getItem('username')}" class="mt-2 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Learn More</a>
                 </div>
             `;
             latestCardsContainer.appendChild(card);
@@ -139,7 +145,7 @@ async function fetchLatestAnime() {
     }
 }
 
-async function fetchLatestReviews(page = 1) {
+async function fetchLatestReviews(page = 1, itemsPerPage = 5) {
     const loadingElement = document.getElementById('loading-review');
     const reviewCardsContainer = document.getElementById('review-cards');
     
@@ -147,7 +153,15 @@ async function fetchLatestReviews(page = 1) {
         const response = await fetch(`https://mylistanime-api-anime.vercel.app/animes/reviews?page=${page}`);
         const data = await response.json();
 
-        data.forEach(review => {
+        console.log('Data ulasan yang diterima:', data);
+
+        const totalReviews = data.length;
+        const sortedData = data.reverse();
+        const reviewsToDisplay = sortedData.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+        console.log('Data ulasan yang ditampilkan:', reviewsToDisplay);
+
+        reviewsToDisplay.forEach(review => {
             const card = document.createElement('div');
             card.classList.add('flex', 'items-start', 'space-x-4', 'bg-gray-800', 'rounded-lg', 'overflow-hidden', 'shadow-lg', 'p-4');
             card.innerHTML = `
@@ -156,14 +170,14 @@ async function fetchLatestReviews(page = 1) {
                     <h3 class="text-xl font-semibold">${review.title}</h3>
                     <p class="mt-1 text-gray-400">Rating: ${review.rating}</p>
                     <p class="mt-2">${review.review}</p>
-                    <p class="mt-2 text-blue-400">Review By ${review.user.username}</p>
+                    <p class="mt-2 text-blue-400">Review Oleh ${review.user.username}</p>
                 </div>
             `;
-            reviewCardsContainer.prepend(card); // Prepend the card to the container
+            reviewCardsContainer.appendChild(card);
         });
-        
-        if (data.length > 0) {
-            // If there are more reviews to load, add a button to load more
+
+        if (reviewsToDisplay.length === itemsPerPage) {
+            // Jika ada lebih banyak ulasan untuk dimuat, tambahkan tombol untuk memuat lebih banyak
             const loadMoreButton = document.createElement('button');
             loadMoreButton.textContent = 'Load More Reviews';
             loadMoreButton.classList.add('mt-4', 'bg-purple-600', 'text-white', 'px-4', 'py-2', 'rounded', 'hover:bg-purple-700');
@@ -177,5 +191,18 @@ async function fetchLatestReviews(page = 1) {
         console.error('Error fetching latest review data:', error);
     } finally {
         loadingElement.style.display = 'none';
+    }
+}
+
+
+function updateUserUsername() {
+    const params = getQueryParams();
+    const username = params.username || localStorage.getItem('username');
+    if (username) {
+        localStorage.setItem('username', username); // Simpan username ke localStorage jika ada di query params
+        const userUsernameElement = document.getElementById('user-username');
+        const mobileUserUsernameElement = document.getElementById('mobile-user-username');
+        userUsernameElement.textContent = username;
+        mobileUserUsernameElement.textContent = username;
     }
 }

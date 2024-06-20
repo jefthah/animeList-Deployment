@@ -78,6 +78,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
             updateUserEmail();
         });
+        fetch('/html/footer/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-container').innerHTML = data;
+        });
 
     function getQueryParams() {
         const params = {};

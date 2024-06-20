@@ -77,6 +77,13 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('Error fetching navbar:', error);
         });
 
+        fetch('/html/footer/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-container').innerHTML = data;
+        });
+
+
     // Fetch top anime
     function fetchTopAnime() {
         fetch('https://api.jikan.moe/v4/top/anime')

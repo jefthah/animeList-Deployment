@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             document.getElementById('navbar-container').innerHTML = data;
 
-            // Reinitialize any required JS here
+            // Inisialisasi ulang JS yang diperlukan di sini
             const menuButton = document.getElementById('menu-button');
             if (menuButton) {
                 menuButton.addEventListener('click', function() {
@@ -75,6 +75,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 searchResults.innerHTML = '';
                 searchResults.classList.add('hidden');
             }
+        });
+        fetch('/html/footer/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-container').innerHTML = data;
         });
 
     const params = new URLSearchParams(window.location.search);

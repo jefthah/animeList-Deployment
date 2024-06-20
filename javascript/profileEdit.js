@@ -115,4 +115,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if (userUsernameElement) userUsernameElement.textContent = username;
         if (mobileUserUsernameElement) mobileUserUsernameElement.textContent = username;
     }
+
+    // Load Footer
+    fetch('/html/footer/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-container').innerHTML = data;
+        });
 });

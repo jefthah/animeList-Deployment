@@ -7,16 +7,15 @@
     <title>My Anime List</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body class="bg-gray-900 text-white">
+<body class="bg-gray-900 text-white flex flex-col min-h-screen">
     <!-- Navbar -->
     <div id="navbar-container"></div>
 
     <!-- Anime List Section -->
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto p-4 flex-grow">
         <h1 class="text-4xl font-bold mb-4">Daftar Anime</h1>
         <!-- Loader -->
         <div id="loader" class="flex justify-center items-center h-64">
@@ -30,7 +29,9 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>
+    <!-- Footer -->
+    <div id="footer-container" class="mt-auto"></div>
+
     <script src="/javascript/myList.js"></script>
 </body>
 

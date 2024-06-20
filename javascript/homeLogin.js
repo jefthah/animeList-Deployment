@@ -69,6 +69,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
             updateUserUsername();
         });
+        fetch('/html/footer/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-container').innerHTML = data;
+        });
 
     fetchTopAnime();
     fetchLatestAnime();
@@ -117,7 +122,7 @@ async function fetchLatestAnime() {
     const latestCardsContainer = document.getElementById('latest-cards');
     
     try {
-        const response = await fetch('https://api.jikan.moe/v4/anime?q=LATEST&sfw');
+        const response = await fetch('https://api.jikan.moe/v4/seasons/2024/summer');
         const data = await response.json();
         const latest8Anime = data.data.slice(0, 8);
 
@@ -140,7 +145,7 @@ async function fetchLatestAnime() {
     }
 }
 
-async function fetchLatestReviews(page = 1) {
+async function fetchLatestReviews(page = 1, itemsPerPage = 5) {
     const loadingElement = document.getElementById('loading-review');
     const reviewCardsContainer = document.getElementById('review-cards');
     
@@ -148,7 +153,15 @@ async function fetchLatestReviews(page = 1) {
         const response = await fetch(`https://mylistanime-api-anime.vercel.app/animes/reviews?page=${page}`);
         const data = await response.json();
 
-        data.forEach(review => {
+        console.log('Data ulasan yang diterima:', data);
+
+        const totalReviews = data.length;
+        const sortedData = data.reverse();
+        const reviewsToDisplay = sortedData.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+        console.log('Data ulasan yang ditampilkan:', reviewsToDisplay);
+
+        reviewsToDisplay.forEach(review => {
             const card = document.createElement('div');
             card.classList.add('flex', 'items-start', 'space-x-4', 'bg-gray-800', 'rounded-lg', 'overflow-hidden', 'shadow-lg', 'p-4');
             card.innerHTML = `
@@ -157,14 +170,14 @@ async function fetchLatestReviews(page = 1) {
                     <h3 class="text-xl font-semibold">${review.title}</h3>
                     <p class="mt-1 text-gray-400">Rating: ${review.rating}</p>
                     <p class="mt-2">${review.review}</p>
-                    <p class="mt-2 text-blue-400">username: ${review.user.username}</p>
+                    <p class="mt-2 text-blue-400">Review Oleh ${review.user.username}</p>
                 </div>
             `;
-            reviewCardsContainer.prepend(card); // Prepend the card to the container
+            reviewCardsContainer.appendChild(card);
         });
-        
-        if (data.length > 0) {
-            // If there are more reviews to load, add a button to load more
+
+        if (reviewsToDisplay.length === itemsPerPage) {
+            // Jika ada lebih banyak ulasan untuk dimuat, tambahkan tombol untuk memuat lebih banyak
             const loadMoreButton = document.createElement('button');
             loadMoreButton.textContent = 'Load More Reviews';
             loadMoreButton.classList.add('mt-4', 'bg-purple-600', 'text-white', 'px-4', 'py-2', 'rounded', 'hover:bg-purple-700');
@@ -180,6 +193,7 @@ async function fetchLatestReviews(page = 1) {
         loadingElement.style.display = 'none';
     }
 }
+
 
 function updateUserUsername() {
     const params = getQueryParams();

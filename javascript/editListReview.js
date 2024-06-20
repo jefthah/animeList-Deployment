@@ -89,6 +89,12 @@ document.addEventListener('DOMContentLoaded', function () {
             // Setelah navbar dimuat, ambil detail anime
             fetchAnimeDetails();
         });
+        fetch('/html/footer/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-container').innerHTML = data;
+        });
+
 
     function updateUserUsername() {
         const username = localStorage.getItem('username');

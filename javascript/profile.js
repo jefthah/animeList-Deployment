@@ -150,4 +150,11 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.removeItem('email');
         window.location.href = '/html/signIn/login.html';
     });
+
+    // Load Footer
+    fetch('/html/footer/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-container').innerHTML = data;
+        });
 });

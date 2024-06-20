@@ -69,6 +69,12 @@ document.addEventListener("DOMContentLoaded", function() {
             fetchAnimeDetails();
         });
 
+    fetch('/html/footer/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-container').innerHTML = data;
+        });
+
     const params = new URLSearchParams(window.location.search);
     const animeId = params.get('id');
     const username = params.get('username');
@@ -80,16 +86,6 @@ document.addEventListener("DOMContentLoaded", function() {
             const mobileUserUsernameElement = document.getElementById('mobile-user-username');
             userUsernameElement.textContent = username;
             mobileUserUsernameElement.textContent = username;
-        }
-    }
-
-    if (username) {
-        localStorage.setItem('username', username);
-        document.getElementById('home-link').href = `homeLogin.html?username=${username}`;
-    } else {
-        const storedUsername = localStorage.getItem('username');
-        if (storedUsername) {
-            document.getElementById('home-link').href = `homeLogin.html?username=${storedUsername}`;
         }
     }
 
